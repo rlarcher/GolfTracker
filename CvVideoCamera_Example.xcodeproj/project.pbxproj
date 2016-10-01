@@ -1,0 +1,570 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		52225F2A1DA04F15005E9EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F291DA04F15005E9EF6 /* main.m */; };
+		52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2C1DA04F15005E9EF6 /* AppDelegate.m */; };
+		52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2F1DA04F15005E9EF6 /* ViewController.mm */; };
+		52225F331DA04F15005E9EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F311DA04F15005E9EF6 /* Main.storyboard */; };
+		52225F351DA04F15005E9EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52225F341DA04F15005E9EF6 /* Assets.xcassets */; };
+		52225F381DA04F15005E9EF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */; };
+		52225F431DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */; };
+		52225F4E1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */; };
+		52225F5C1DA04F35005E9EF6 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5B1DA04F35005E9EF6 /* opencv2.framework */; };
+		52225F5E1DA05134005E9EF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5D1DA05134005E9EF6 /* QuartzCore.framework */; };
+		52225F601DA0513E005E9EF6 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5F1DA0513E005E9EF6 /* CoreImage.framework */; };
+		52225F621DA05148005E9EF6 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F611DA05148005E9EF6 /* CoreVideo.framework */; };
+		52225F641DA0514F005E9EF6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F631DA0514F005E9EF6 /* Accelerate.framework */; };
+		52225F661DA05156005E9EF6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F651DA05156005E9EF6 /* AssetsLibrary.framework */; };
+		52225F681DA0515E005E9EF6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F671DA0515E005E9EF6 /* CoreMedia.framework */; };
+		52225F6A1DA05167005E9EF6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F691DA05167005E9EF6 /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		52225F3F1DA04F15005E9EF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52225F1D1DA04F15005E9EF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52225F241DA04F15005E9EF6;
+			remoteInfo = CvVideoCamera_Example;
+		};
+		52225F4A1DA04F15005E9EF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52225F1D1DA04F15005E9EF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52225F241DA04F15005E9EF6;
+			remoteInfo = CvVideoCamera_Example;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CvVideoCamera_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52225F291DA04F15005E9EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		52225F2B1DA04F15005E9EF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		52225F2C1DA04F15005E9EF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		52225F2E1DA04F15005E9EF6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		52225F2F1DA04F15005E9EF6 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		52225F321DA04F15005E9EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		52225F341DA04F15005E9EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		52225F371DA04F15005E9EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		52225F391DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CvVideoCamera_ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CvVideoCamera_ExampleTests.m; sourceTree = "<group>"; };
+		52225F441DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CvVideoCamera_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CvVideoCamera_ExampleUITests.m; sourceTree = "<group>"; };
+		52225F4F1DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52225F5B1DA04F35005E9EF6 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		52225F5D1DA05134005E9EF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		52225F5F1DA0513E005E9EF6 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		52225F611DA05148005E9EF6 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		52225F631DA0514F005E9EF6 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		52225F651DA05156005E9EF6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		52225F671DA0515E005E9EF6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		52225F691DA05167005E9EF6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		52225F221DA04F15005E9EF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52225F6A1DA05167005E9EF6 /* AVFoundation.framework in Frameworks */,
+				52225F681DA0515E005E9EF6 /* CoreMedia.framework in Frameworks */,
+				52225F661DA05156005E9EF6 /* AssetsLibrary.framework in Frameworks */,
+				52225F641DA0514F005E9EF6 /* Accelerate.framework in Frameworks */,
+				52225F621DA05148005E9EF6 /* CoreVideo.framework in Frameworks */,
+				52225F601DA0513E005E9EF6 /* CoreImage.framework in Frameworks */,
+				52225F5E1DA05134005E9EF6 /* QuartzCore.framework in Frameworks */,
+				52225F5C1DA04F35005E9EF6 /* opencv2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F3B1DA04F15005E9EF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F461DA04F15005E9EF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		52225F1C1DA04F15005E9EF6 = {
+			isa = PBXGroup;
+			children = (
+				52225F691DA05167005E9EF6 /* AVFoundation.framework */,
+				52225F671DA0515E005E9EF6 /* CoreMedia.framework */,
+				52225F651DA05156005E9EF6 /* AssetsLibrary.framework */,
+				52225F631DA0514F005E9EF6 /* Accelerate.framework */,
+				52225F611DA05148005E9EF6 /* CoreVideo.framework */,
+				52225F5F1DA0513E005E9EF6 /* CoreImage.framework */,
+				52225F5D1DA05134005E9EF6 /* QuartzCore.framework */,
+				52225F5B1DA04F35005E9EF6 /* opencv2.framework */,
+				52225F271DA04F15005E9EF6 /* CvVideoCamera_Example */,
+				52225F411DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */,
+				52225F4C1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */,
+				52225F261DA04F15005E9EF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		52225F261DA04F15005E9EF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */,
+				52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */,
+				52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		52225F271DA04F15005E9EF6 /* CvVideoCamera_Example */ = {
+			isa = PBXGroup;
+			children = (
+				52225F2B1DA04F15005E9EF6 /* AppDelegate.h */,
+				52225F2C1DA04F15005E9EF6 /* AppDelegate.m */,
+				52225F2E1DA04F15005E9EF6 /* ViewController.h */,
+				52225F2F1DA04F15005E9EF6 /* ViewController.mm */,
+				52225F311DA04F15005E9EF6 /* Main.storyboard */,
+				52225F341DA04F15005E9EF6 /* Assets.xcassets */,
+				52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */,
+				52225F391DA04F15005E9EF6 /* Info.plist */,
+				52225F281DA04F15005E9EF6 /* Supporting Files */,
+			);
+			path = CvVideoCamera_Example;
+			sourceTree = "<group>";
+		};
+		52225F281DA04F15005E9EF6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				52225F291DA04F15005E9EF6 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52225F411DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */,
+				52225F441DA04F15005E9EF6 /* Info.plist */,
+			);
+			path = CvVideoCamera_ExampleTests;
+			sourceTree = "<group>";
+		};
+		52225F4C1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */,
+				52225F4F1DA04F15005E9EF6 /* Info.plist */,
+			);
+			path = CvVideoCamera_ExampleUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_Example" */;
+			buildPhases = (
+				52225F211DA04F15005E9EF6 /* Sources */,
+				52225F221DA04F15005E9EF6 /* Frameworks */,
+				52225F231DA04F15005E9EF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CvVideoCamera_Example;
+			productName = CvVideoCamera_Example;
+			productReference = 52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+		52225F3D1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleTests" */;
+			buildPhases = (
+				52225F3A1DA04F15005E9EF6 /* Sources */,
+				52225F3B1DA04F15005E9EF6 /* Frameworks */,
+				52225F3C1DA04F15005E9EF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52225F401DA04F15005E9EF6 /* PBXTargetDependency */,
+			);
+			name = CvVideoCamera_ExampleTests;
+			productName = CvVideoCamera_ExampleTests;
+			productReference = 52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		52225F481DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleUITests" */;
+			buildPhases = (
+				52225F451DA04F15005E9EF6 /* Sources */,
+				52225F461DA04F15005E9EF6 /* Frameworks */,
+				52225F471DA04F15005E9EF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52225F4B1DA04F15005E9EF6 /* PBXTargetDependency */,
+			);
+			name = CvVideoCamera_ExampleUITests;
+			productName = CvVideoCamera_ExampleUITests;
+			productReference = 52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		52225F1D1DA04F15005E9EF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = CMU_16623;
+				TargetAttributes = {
+					52225F241DA04F15005E9EF6 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = ZBPM2PFYYJ;
+					};
+					52225F3D1DA04F15005E9EF6 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 52225F241DA04F15005E9EF6;
+					};
+					52225F481DA04F15005E9EF6 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 52225F241DA04F15005E9EF6;
+					};
+				};
+			};
+			buildConfigurationList = 52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "CvVideoCamera_Example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 52225F1C1DA04F15005E9EF6;
+			productRefGroup = 52225F261DA04F15005E9EF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */,
+				52225F3D1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */,
+				52225F481DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52225F231DA04F15005E9EF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52225F381DA04F15005E9EF6 /* LaunchScreen.storyboard in Resources */,
+				52225F351DA04F15005E9EF6 /* Assets.xcassets in Resources */,
+				52225F331DA04F15005E9EF6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F3C1DA04F15005E9EF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F471DA04F15005E9EF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		52225F211DA04F15005E9EF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */,
+				52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */,
+				52225F2A1DA04F15005E9EF6 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F3A1DA04F15005E9EF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52225F431DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52225F451DA04F15005E9EF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52225F4E1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		52225F401DA04F15005E9EF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */;
+			targetProxy = 52225F3F1DA04F15005E9EF6 /* PBXContainerItemProxy */;
+		};
+		52225F4B1DA04F15005E9EF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */;
+			targetProxy = 52225F4A1DA04F15005E9EF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		52225F311DA04F15005E9EF6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52225F321DA04F15005E9EF6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52225F371DA04F15005E9EF6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		52225F501DA04F15005E9EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		52225F511DA04F15005E9EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		52225F531DA04F15005E9EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CvVideoCamera_Example/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		52225F541DA04F15005E9EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CvVideoCamera_Example/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		52225F561DA04F15005E9EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CvVideoCamera_ExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CvVideoCamera_Example.app/CvVideoCamera_Example";
+			};
+			name = Debug;
+		};
+		52225F571DA04F15005E9EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CvVideoCamera_ExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CvVideoCamera_Example.app/CvVideoCamera_Example";
+			};
+			name = Release;
+		};
+		52225F591DA04F15005E9EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = CvVideoCamera_ExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CvVideoCamera_Example;
+			};
+			name = Debug;
+		};
+		52225F5A1DA04F15005E9EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = CvVideoCamera_ExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CvVideoCamera_Example;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "CvVideoCamera_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52225F501DA04F15005E9EF6 /* Debug */,
+				52225F511DA04F15005E9EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52225F531DA04F15005E9EF6 /* Debug */,
+				52225F541DA04F15005E9EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52225F561DA04F15005E9EF6 /* Debug */,
+				52225F571DA04F15005E9EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52225F591DA04F15005E9EF6 /* Debug */,
+				52225F5A1DA04F15005E9EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 52225F1D1DA04F15005E9EF6 /* Project object */;
+}
