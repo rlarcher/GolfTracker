@@ -21,9 +21,12 @@
     cv::BRISK *briskDetector_;
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
 }
+
 @end
 
 @implementation ViewController
+
+const cv::Scalar RED = cv::Scalar(255, 0, 0);
 
 // Important as when you when you override a property of a superclass, you must explicitly synthesize it
 @synthesize videoCamera;
@@ -76,6 +79,21 @@
     if(image.channels() == 4)
         cvtColor(image, gray, CV_RGBA2GRAY); // Convert to grayscale
     else gray = image;
+    
+    GaussianBlur( gray, gray, cv::Size(9, 9), 2, 2 );
+    
+    vector<Vec3f> circles;
+    
+    HoughCircles(gray, circles, CV_HOUGH_GRADIENT, 1, gray.rows/8, 200, 100, 0, 0 );
+    for(int i = 0; i < circles.size(); i++) {
+        cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+        int radius = cvRound(circles[i][2]);
+        // circle center
+        circle( image, center, 3, RED, -1, 8, 0 );
+        // circle outline
+        circle( image, center, radius, Scalar(0,0,255), 3, 8, 0 );
+    }
+
 }
 
 
