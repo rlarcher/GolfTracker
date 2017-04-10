@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E857D81E99606B0026488F /* ball_detection.cpp */; };
 		52225F2A1DA04F15005E9EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F291DA04F15005E9EF6 /* main.m */; };
 		52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2C1DA04F15005E9EF6 /* AppDelegate.m */; };
 		52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2F1DA04F15005E9EF6 /* ViewController.mm */; };
 		52225F331DA04F15005E9EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F311DA04F15005E9EF6 /* Main.storyboard */; };
 		52225F351DA04F15005E9EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52225F341DA04F15005E9EF6 /* Assets.xcassets */; };
 		52225F381DA04F15005E9EF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */; };
-		52225F431DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */; };
-		52225F4E1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */; };
+		52225F431DA04F15005E9EF6 /* GolfTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F421DA04F15005E9EF6 /* GolfTrackerTests.m */; };
+		52225F4E1DA04F15005E9EF6 /* GolfTrackeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F4D1DA04F15005E9EF6 /* GolfTrackeUITests.m */; };
 		52225F5C1DA04F35005E9EF6 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5B1DA04F35005E9EF6 /* opencv2.framework */; };
 		52225F5E1DA05134005E9EF6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5D1DA05134005E9EF6 /* QuartzCore.framework */; };
 		52225F601DA0513E005E9EF6 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52225F5F1DA0513E005E9EF6 /* CoreImage.framework */; };
@@ -43,7 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CvVideoCamera_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28E857D81E99606B0026488F /* ball_detection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ball_detection.cpp; sourceTree = "<group>"; };
+		28E857D91E99606B0026488F /* ball_detection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ball_detection.hpp; sourceTree = "<group>"; };
+		52225F251DA04F15005E9EF6 /* GolfTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolfTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52225F291DA04F15005E9EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		52225F2B1DA04F15005E9EF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52225F2C1DA04F15005E9EF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -53,11 +56,11 @@
 		52225F341DA04F15005E9EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52225F371DA04F15005E9EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52225F391DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CvVideoCamera_ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CvVideoCamera_ExampleTests.m; sourceTree = "<group>"; };
+		52225F3E1DA04F15005E9EF6 /* GolfTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GolfTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52225F421DA04F15005E9EF6 /* GolfTrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GolfTrackerTests.m; sourceTree = "<group>"; };
 		52225F441DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CvVideoCamera_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CvVideoCamera_ExampleUITests.m; sourceTree = "<group>"; };
+		52225F491DA04F15005E9EF6 /* GolfTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GolfTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52225F4D1DA04F15005E9EF6 /* GolfTrackeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GolfTrackeUITests.m; sourceTree = "<group>"; };
 		52225F4F1DA04F15005E9EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52225F5B1DA04F35005E9EF6 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		52225F5D1DA05134005E9EF6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -113,9 +116,9 @@
 				52225F5F1DA0513E005E9EF6 /* CoreImage.framework */,
 				52225F5D1DA05134005E9EF6 /* QuartzCore.framework */,
 				52225F5B1DA04F35005E9EF6 /* opencv2.framework */,
-				52225F271DA04F15005E9EF6 /* CvVideoCamera_Example */,
-				52225F411DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */,
-				52225F4C1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */,
+				52225F271DA04F15005E9EF6 /* GolfTracker */,
+				52225F411DA04F15005E9EF6 /* GolfTrackerTests */,
+				52225F4C1DA04F15005E9EF6 /* GolfTrackerUITests */,
 				52225F261DA04F15005E9EF6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -123,26 +126,29 @@
 		52225F261DA04F15005E9EF6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */,
-				52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */,
-				52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */,
+				52225F251DA04F15005E9EF6 /* GolfTracker.app */,
+				52225F3E1DA04F15005E9EF6 /* GolfTrackerTests.xctest */,
+				52225F491DA04F15005E9EF6 /* GolfTrackerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		52225F271DA04F15005E9EF6 /* CvVideoCamera_Example */ = {
+		52225F271DA04F15005E9EF6 /* GolfTracker */ = {
 			isa = PBXGroup;
 			children = (
 				52225F2B1DA04F15005E9EF6 /* AppDelegate.h */,
 				52225F2C1DA04F15005E9EF6 /* AppDelegate.m */,
 				52225F2E1DA04F15005E9EF6 /* ViewController.h */,
 				52225F2F1DA04F15005E9EF6 /* ViewController.mm */,
+				28E857D81E99606B0026488F /* ball_detection.cpp */,
+				28E857D91E99606B0026488F /* ball_detection.hpp */,
 				52225F311DA04F15005E9EF6 /* Main.storyboard */,
 				52225F341DA04F15005E9EF6 /* Assets.xcassets */,
 				52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */,
 				52225F391DA04F15005E9EF6 /* Info.plist */,
 				52225F281DA04F15005E9EF6 /* Supporting Files */,
 			);
+			name = GolfTracker;
 			path = CvVideoCamera_Example;
 			sourceTree = "<group>";
 		};
@@ -154,30 +160,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		52225F411DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */ = {
+		52225F411DA04F15005E9EF6 /* GolfTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				52225F421DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m */,
+				52225F421DA04F15005E9EF6 /* GolfTrackerTests.m */,
 				52225F441DA04F15005E9EF6 /* Info.plist */,
 			);
+			name = GolfTrackerTests;
 			path = CvVideoCamera_ExampleTests;
 			sourceTree = "<group>";
 		};
-		52225F4C1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */ = {
+		52225F4C1DA04F15005E9EF6 /* GolfTrackerUITests */ = {
 			isa = PBXGroup;
 			children = (
-				52225F4D1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m */,
+				52225F4D1DA04F15005E9EF6 /* GolfTrackeUITests.m */,
 				52225F4F1DA04F15005E9EF6 /* Info.plist */,
 			);
+			name = GolfTrackerUITests;
 			path = CvVideoCamera_ExampleUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */ = {
+		52225F241DA04F15005E9EF6 /* GolfTracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_Example" */;
+			buildConfigurationList = 52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTracker" */;
 			buildPhases = (
 				52225F211DA04F15005E9EF6 /* Sources */,
 				52225F221DA04F15005E9EF6 /* Frameworks */,
@@ -187,14 +195,14 @@
 			);
 			dependencies = (
 			);
-			name = CvVideoCamera_Example;
+			name = GolfTracker;
 			productName = CvVideoCamera_Example;
-			productReference = 52225F251DA04F15005E9EF6 /* CvVideoCamera_Example.app */;
+			productReference = 52225F251DA04F15005E9EF6 /* GolfTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
-		52225F3D1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */ = {
+		52225F3D1DA04F15005E9EF6 /* GolfTrackerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleTests" */;
+			buildConfigurationList = 52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTrackerTests" */;
 			buildPhases = (
 				52225F3A1DA04F15005E9EF6 /* Sources */,
 				52225F3B1DA04F15005E9EF6 /* Frameworks */,
@@ -205,14 +213,14 @@
 			dependencies = (
 				52225F401DA04F15005E9EF6 /* PBXTargetDependency */,
 			);
-			name = CvVideoCamera_ExampleTests;
+			name = GolfTrackerTests;
 			productName = CvVideoCamera_ExampleTests;
-			productReference = 52225F3E1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.xctest */;
+			productReference = 52225F3E1DA04F15005E9EF6 /* GolfTrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		52225F481DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */ = {
+		52225F481DA04F15005E9EF6 /* GolfTrackerUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleUITests" */;
+			buildConfigurationList = 52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTrackerUITests" */;
 			buildPhases = (
 				52225F451DA04F15005E9EF6 /* Sources */,
 				52225F461DA04F15005E9EF6 /* Frameworks */,
@@ -223,9 +231,9 @@
 			dependencies = (
 				52225F4B1DA04F15005E9EF6 /* PBXTargetDependency */,
 			);
-			name = CvVideoCamera_ExampleUITests;
+			name = GolfTrackerUITests;
 			productName = CvVideoCamera_ExampleUITests;
-			productReference = 52225F491DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.xctest */;
+			productReference = 52225F491DA04F15005E9EF6 /* GolfTrackerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -239,7 +247,7 @@
 				TargetAttributes = {
 					52225F241DA04F15005E9EF6 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = ZBPM2PFYYJ;
+						DevelopmentTeam = 2MLS3CT6Y6;
 					};
 					52225F3D1DA04F15005E9EF6 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -251,7 +259,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "CvVideoCamera_Example" */;
+			buildConfigurationList = 52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "GolfTracker" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -264,9 +272,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */,
-				52225F3D1DA04F15005E9EF6 /* CvVideoCamera_ExampleTests */,
-				52225F481DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests */,
+				52225F241DA04F15005E9EF6 /* GolfTracker */,
+				52225F3D1DA04F15005E9EF6 /* GolfTrackerTests */,
+				52225F481DA04F15005E9EF6 /* GolfTrackerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -303,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */,
 				52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */,
 				52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */,
 				52225F2A1DA04F15005E9EF6 /* main.m in Sources */,
@@ -313,7 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52225F431DA04F15005E9EF6 /* CvVideoCamera_ExampleTests.m in Sources */,
+				52225F431DA04F15005E9EF6 /* GolfTrackerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52225F4E1DA04F15005E9EF6 /* CvVideoCamera_ExampleUITests.m in Sources */,
+				52225F4E1DA04F15005E9EF6 /* GolfTrackeUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,12 +339,12 @@
 /* Begin PBXTargetDependency section */
 		52225F401DA04F15005E9EF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */;
+			target = 52225F241DA04F15005E9EF6 /* GolfTracker */;
 			targetProxy = 52225F3F1DA04F15005E9EF6 /* PBXContainerItemProxy */;
 		};
 		52225F4B1DA04F15005E9EF6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 52225F241DA04F15005E9EF6 /* CvVideoCamera_Example */;
+			target = 52225F241DA04F15005E9EF6 /* GolfTracker */;
 			targetProxy = 52225F4A1DA04F15005E9EF6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -452,13 +461,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2MLS3CT6Y6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = CvVideoCamera_Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-Example";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.GolfTracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -470,13 +480,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2MLS3CT6Y6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = CvVideoCamera_Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-Example";
+				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.GolfTracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -490,7 +501,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CvVideoCamera_Example.app/CvVideoCamera_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GolfTracker.app/GolfTracker";
 			};
 			name = Debug;
 		};
@@ -502,7 +513,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "CMU-16623.CvVideoCamera-ExampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CvVideoCamera_Example.app/CvVideoCamera_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GolfTracker.app/GolfTracker";
 			};
 			name = Release;
 		};
@@ -531,7 +542,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "CvVideoCamera_Example" */ = {
+		52225F201DA04F15005E9EF6 /* Build configuration list for PBXProject "GolfTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52225F501DA04F15005E9EF6 /* Debug */,
@@ -540,29 +551,32 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_Example" */ = {
+		52225F521DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52225F531DA04F15005E9EF6 /* Debug */,
 				52225F541DA04F15005E9EF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleTests" */ = {
+		52225F551DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTrackerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52225F561DA04F15005E9EF6 /* Debug */,
 				52225F571DA04F15005E9EF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "CvVideoCamera_ExampleUITests" */ = {
+		52225F581DA04F15005E9EF6 /* Build configuration list for PBXNativeTarget "GolfTrackerUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52225F591DA04F15005E9EF6 /* Debug */,
 				52225F5A1DA04F15005E9EF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
