@@ -18,8 +18,9 @@
 
 @interface ViewController(){
     UIImageView *imageView_; // Setup the image view
-    cv::BRISK *briskDetector_;
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
+    cv::Point points[10000];
+    size_t num_points;
 }
 
 @end
@@ -33,7 +34,8 @@ const cv::Scalar RED = cv::Scalar(255, 0, 0);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    float cam_width = 720; float cam_height = 1280;
+    num_points = 1;
+    float cam_width = 288; float cam_height = 352;
     
     int view_width = self.view.frame.size.width;
     int view_height = (int)(cam_height*self.view.frame.size.width/cam_width);
@@ -54,9 +56,9 @@ const cv::Scalar RED = cv::Scalar(255, 0, 0);
     self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
     
     // Choose these depending on the camera input chosen
-    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
+    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
     //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
-    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
+    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
 
     [videoCamera start];
     
@@ -80,18 +82,26 @@ const cv::Scalar RED = cv::Scalar(255, 0, 0);
         cvtColor(image, gray, CV_RGBA2GRAY); // Convert to grayscale
     else gray = image;
     
-    GaussianBlur( gray, gray, cv::Size(9, 9), 2, 2 );
+    GaussianBlur(gray, gray, cv::Size(9, 9), 2, 2 );
     
     vector<Vec3f> circles;
     
     HoughCircles(gray, circles, CV_HOUGH_GRADIENT, 1, gray.rows/8, 200, 100, 0, 0 );
-    for(int i = 0; i < circles.size(); i++) {
+    for(size_t i = 0; i < circles.size(); i++) {
+        std::cout << "Detected circle";
         cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-        int radius = cvRound(circles[i][2]);
+        //int radius = cvRound(circles[i][2]);
         // circle center
-        circle( image, center, 3, RED, -1, 8, 0 );
+        //circle( image, center, 3, Scalar(0,255,0), -1, 8, 0 );
         // circle outline
-        circle( image, center, radius, Scalar(0,0,255), 3, 8, 0 );
+        //circle( image, center, radius, Scalar(0,0,255), 3, 8, 0 );
+        points[num_points] = center;
+        num_points++;
+    }
+    for(size_t i = 1; i < num_points -1; i++) {
+        cv::Point start = points[i];
+        cv::Point end = points[i+1];
+        cv::line(image, start, end, Scalar(0,0,255), 2);
     }
 
 }
