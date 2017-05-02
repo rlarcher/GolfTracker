@@ -37,8 +37,10 @@ const float GOLF_BALL_MILLI_RADIUS = 21.3;
 
 using namespace std;
 
-// Important as when you when you override a property of a superclass, you must explicitly synthesize it
 @synthesize videoCamera;
+- (IBAction)reset_path:(id)sender {
+    num_points = 1;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,7 +51,7 @@ using namespace std;
     int view_height = (int)(cam_height*self.view.frame.size.width/cam_width);
     int offset = (self.view.frame.size.height - view_height)/2;
     
-    imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, offset, view_width, view_height)];
+    imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, offset, view_width, view_height-50)];
     
     //[imageView_ setContentMode:UIViewContentModeScaleAspectFill]; (does not work)
     [self.view addSubview:imageView_]; // Add the view
