@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28D36CBE1EB80CC300F05FC2 /* HomeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */; };
+		28D36CC11EB8113C00F05FC2 /* Golf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 28D36CC01EB8113C00F05FC2 /* Golf.jpg */; };
 		28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E857D81E99606B0026488F /* ball_detection.cpp */; };
 		52225F2A1DA04F15005E9EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F291DA04F15005E9EF6 /* main.m */; };
 		52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2C1DA04F15005E9EF6 /* AppDelegate.m */; };
-		52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2F1DA04F15005E9EF6 /* ViewController.mm */; };
+		52225F301DA04F15005E9EF6 /* CameraViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2F1DA04F15005E9EF6 /* CameraViewController.mm */; };
 		52225F331DA04F15005E9EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F311DA04F15005E9EF6 /* Main.storyboard */; };
 		52225F351DA04F15005E9EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52225F341DA04F15005E9EF6 /* Assets.xcassets */; };
 		52225F381DA04F15005E9EF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52225F361DA04F15005E9EF6 /* LaunchScreen.storyboard */; };
@@ -44,14 +46,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28D36CBB1EB80CC300F05FC2 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HomeViewController.mm; sourceTree = "<group>"; };
+		28D36CC01EB8113C00F05FC2 /* Golf.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Golf.jpg; sourceTree = "<group>"; };
 		28E857D81E99606B0026488F /* ball_detection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ball_detection.cpp; sourceTree = "<group>"; };
 		28E857D91E99606B0026488F /* ball_detection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ball_detection.hpp; sourceTree = "<group>"; };
 		52225F251DA04F15005E9EF6 /* GolfTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolfTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52225F291DA04F15005E9EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		52225F2B1DA04F15005E9EF6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		52225F2C1DA04F15005E9EF6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		52225F2E1DA04F15005E9EF6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		52225F2F1DA04F15005E9EF6 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		52225F2E1DA04F15005E9EF6 /* CameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		52225F2F1DA04F15005E9EF6 /* CameraViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CameraViewController.mm; sourceTree = "<group>"; };
 		52225F321DA04F15005E9EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52225F341DA04F15005E9EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52225F371DA04F15005E9EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -138,8 +143,10 @@
 			children = (
 				52225F2B1DA04F15005E9EF6 /* AppDelegate.h */,
 				52225F2C1DA04F15005E9EF6 /* AppDelegate.m */,
-				52225F2E1DA04F15005E9EF6 /* ViewController.h */,
-				52225F2F1DA04F15005E9EF6 /* ViewController.mm */,
+				52225F2E1DA04F15005E9EF6 /* CameraViewController.h */,
+				52225F2F1DA04F15005E9EF6 /* CameraViewController.mm */,
+				28D36CBB1EB80CC300F05FC2 /* HomeViewController.h */,
+				28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */,
 				28E857D81E99606B0026488F /* ball_detection.cpp */,
 				28E857D91E99606B0026488F /* ball_detection.hpp */,
 				52225F311DA04F15005E9EF6 /* Main.storyboard */,
@@ -154,6 +161,7 @@
 		52225F281DA04F15005E9EF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				28D36CC01EB8113C00F05FC2 /* Golf.jpg */,
 				52225F291DA04F15005E9EF6 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -239,7 +247,7 @@
 		52225F1D1DA04F15005E9EF6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CMU_16623;
 				TargetAttributes = {
 					52225F241DA04F15005E9EF6 = {
@@ -284,6 +292,7 @@
 				52225F381DA04F15005E9EF6 /* LaunchScreen.storyboard in Resources */,
 				52225F351DA04F15005E9EF6 /* Assets.xcassets in Resources */,
 				52225F331DA04F15005E9EF6 /* Main.storyboard in Resources */,
+				28D36CC11EB8113C00F05FC2 /* Golf.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,8 +318,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */,
-				52225F301DA04F15005E9EF6 /* ViewController.mm in Sources */,
+				52225F301DA04F15005E9EF6 /* CameraViewController.mm in Sources */,
 				52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */,
+				28D36CBE1EB80CC300F05FC2 /* HomeViewController.mm in Sources */,
 				52225F2A1DA04F15005E9EF6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

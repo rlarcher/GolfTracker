@@ -10,11 +10,13 @@
 #import <opencv2/highgui/ios.h>
 
 // Slightly changed things here to employ the CvVideoCameraDelegate
-@interface ViewController : UIViewController<CvVideoCameraDelegate>
+@interface CameraViewController : UIViewController<CvVideoCameraDelegate>
 {
     CvVideoCamera *videoCamera; // OpenCV class for accessing the camera
 }
 // Declare internal property of videoCamera
 @property (nonatomic, retain) CvVideoCamera *videoCamera;
+
+@property bool finding_speed;
 
 @end
