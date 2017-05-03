@@ -34,6 +34,10 @@
     AVCaptureSession *session;
     AVCaptureVideoDataOutput *output;
     CAShapeLayer *line_layer;
+    IBOutlet UIImageView *imageView;
+    CGFloat scaleFactorX;
+    CGFloat scaleFactorY;
+    UIBezierPath *path;
 }
 
 @end
@@ -51,14 +55,16 @@ using namespace std;
     
     // set up calayer for drawing line
     self->line_layer = [CAShapeLayer layer];
-    self->line_layer.fillColor=[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.1].CGColor;
-    self->line_layer.lineWidth = 2.0f;
+    self->line_layer.lineWidth = 6.0f;
+    [self->line_layer setFillColor:[[UIColor colorWithWhite:0 alpha:0] CGColor]];
     self->line_layer.lineCap = kCALineCapRound;
     self->line_layer.strokeColor = [[UIColor redColor] CGColor];
+    self->line_layer.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f].CGColor;
     [self.view.layer addSublayer:self->line_layer];
+    path = [[UIBezierPath alloc] init];
     
     session = [[AVCaptureSession alloc] init];
-    [session setSessionPreset:AVCaptureSessionPresetHigh];
+    //[session setSessionPreset:AVCaptureSessionPresetHigh];
     
     self->startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     CGSize size = self.view.frame.size;
@@ -74,9 +80,8 @@ using namespace std;
         [self configureCameraForHighestFrameRate:camera_device];
         [self configureInput];
         [self configureOutput];
+        [session commitConfiguration];
     }
-    
-    
     
     //[session startRunning];
     [self startCapturingWithSession:session];
@@ -84,37 +89,25 @@ using namespace std;
 
 - (void)startCapturingWithSession: (AVCaptureSession *) captureSession
 {
-    NSLog(@"Adding video preview layer");
-    [self setPreviewLayer:[[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession]];
+    self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
     
     [self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    self.previewLayer.frame = self.view.bounds;
+    [self.view.layer addSublayer:self.previewLayer];
     
-    
-    //----- DISPLAY THE PREVIEW LAYER -----
-    //Display it full screen under out view controller existing controls
-    NSLog(@"Display the preview layer");
-    CGRect layerRect = [[[self view] layer] bounds];
-    [self.previewLayer setBounds:layerRect];
-    [self.previewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
-                                               CGRectGetMidY(layerRect))];
-    //[self.previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationLandscapeLeft];
-    
-    //[self.view.layer addSublayer:self.previewLayer];
-    
-    
-    //----- START THE CAPTURE SESSION RUNNING -----
     [captureSession startRunning];
 }
 
 - (void) configureOutput {
     // create camera output
-    output = [[AVCaptureVideoDataOutput alloc] init];
+    output = [AVCaptureVideoDataOutput new];
     
-    output.videoSettings = [NSDictionary dictionaryWithObject: [NSNumber numberWithInt:kCVPixelFormatType_32BGRA] forKey: (id)kCVPixelBufferPixelFormatTypeKey];
-    
+    output.videoSettings = [NSDictionary dictionaryWithObject: [NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange] forKey: (id)kCVPixelBufferPixelFormatTypeKey];
+    [output setAlwaysDiscardsLateVideoFrames:YES];
     // set output delegate to self
     dispatch_queue_t queue = dispatch_queue_create("output_queue", NULL);
     [output setSampleBufferDelegate:self queue:queue];
+    [[output connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
     [session addOutput:output];
 }
 
@@ -125,7 +118,9 @@ using namespace std;
 }
 - (IBAction)reset_path:(id)sender {
     num_points = 1;
-    [session stopRunning];
+    //[session stopRunning];
+    //[[NSOperationQueue mainQueue] waitUntilAllOperationsAreFinished];
+    //[self drawLines];
 }
 
 - (void)configureCameraForHighestFrameRate:(AVCaptureDevice *)device
@@ -134,9 +129,10 @@ using namespace std;
     AVFrameRateRange *bestFrameRateRange = nil;
     for (AVCaptureDeviceFormat *format in [device formats] ) {
         for (AVFrameRateRange *range in format.videoSupportedFrameRateRanges ) {
-            if (range.maxFrameRate > bestFrameRateRange.maxFrameRate ) {
+            if (range.maxFrameRate < bestFrameRateRange.maxFrameRate ) {
                 bestFormat = format;
                 bestFrameRateRange = range;
+                cout << "Got best format " << range.maxFrameRate << "\n";
             }
         }
     }
@@ -144,6 +140,7 @@ using namespace std;
         if ([device lockForConfiguration:NULL] == YES) {
             // lock config
             device.activeFormat = bestFormat;
+            device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
             device.activeVideoMinFrameDuration = bestFrameRateRange.minFrameDuration;
             device.activeVideoMaxFrameDuration = bestFrameRateRange.minFrameDuration;
             [device unlockForConfiguration];
@@ -185,10 +182,14 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
 }
 
 // Function to run apply image on
-- (cv::Mat&) processImage:(cv:: Mat &)image
+- (void) processImage:(cv:: Mat &)image
 {
+    scaleFactorX = image.rows / self->imageView.frame.size.width;
+    scaleFactorY = image.cols / self->imageView.frame.size.height;
     // Now apply Brisk features on the live camera
     using namespace cv;
+    
+    cout << "Processing image\n";
     
     // Convert image to hsvscale....
     //std::cout << image.channels() << std::endl;
@@ -198,7 +199,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         cvtColor(image, hsv, CV_RGB2HSV); // Convert to hsvscale
     else hsv = image;
     
-    GaussianBlur(hsv, hsv, cv::Size(9, 9), 2, 2 );
+    GaussianBlur(hsv, hsv, cv::Size(3, 3), 2, 2 );
     int64 next_time = getTickCount();
     
     curr_time = next_time;
@@ -235,11 +236,11 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
             double dist = euclideanDist(points[num_points-1].x, center[i].x,
                                         points[num_points-1].y, center[i].y);
             cout << dist << "\n";
-            if(dist < 45 || num_points < 5) {
+            //if(dist < 45 || num_points < 5) {
                 points[num_points] = center[i];
                 curr_center = center[i];
                 num_points++;
-            }
+            //}
         }
     }/*
     for(size_t i = 1; i < num_points -1; i++) {
@@ -248,19 +249,31 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         cv::Point end = points[i+1];
         cv::line(image, start, end, Scalar(0,0,255), 2);
     }*/
-    [self drawLines];
-    return image;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self drawLines];
+    }];
 }
 
 - (void) drawLines {
+    if (num_points > 1) {
+    /*[self->line_layer removeFromSuperlayer];
     UIBezierPath *path=[UIBezierPath bezierPath];
-    CGPoint start = CGPointMake(points[0].x, points[0].y);
+    CGPoint start = CGPointMake(points[1].x/scaleFactorX, points[1].y/scaleFactorY);
     [path moveToPoint:start];
+    cout << "first point is " << start.x << " " << start.y << "\n";
     for (size_t i = 1; i < num_points; i++) {
-        [path moveToPoint:CGPointMake(points[i].x, points[i].y)];
+        CGFloat x = points[i].x / scaleFactorX;
+        CGFloat y = points[i].y / scaleFactorY;
+        [path addLineToPoint:CGPointMake(y, x)];
+        cout << "moving to " << x << " and " << y << "\n";
     }
     self->line_layer.path = path.CGPath;
-    cout << "Updating path\n";
+    [self.view.layer addSublayer:self->line_layer];
+     */
+        CGFloat x = points[num_points-1].x / scaleFactorX;
+        CGFloat y = points[num_points-1].y / scaleFactorY;
+        [path addLineToPoint:CGPointMake(x,y)];
+    }
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
@@ -276,9 +289,6 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         size_t width;
         size_t height;
         size_t bytesPerRow;
-        
-        CGColorSpaceRef colorSpace;
-        CGContextRef context;
         
         int format_opencv;
         
@@ -305,74 +315,9 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         
         // delegate image processing to the delegate
         cv::Mat image((int)height, (int)width, format_opencv, bufferAddress, bytesPerRow);
-        
-        CGImage* dstImage;
-        
-        image = [self processImage:image];
-        
-        // check if matrix data pointer or dimensions were changed by the delegate
-        bool iOSimage = false;
-        if (height == (size_t)image.rows && width == (size_t)image.cols && format_opencv == image.type() && bufferAddress == image.data && bytesPerRow == image.step) {
-            iOSimage = true;
-        }
-        
-        
-        // (create color space, create graphics context, render buffer)
-        CGBitmapInfo bitmapInfo;
-        
-        // basically we decide if it's a grayscale, rgb or rgba image
-        if (image.channels() == 1) {
-            colorSpace = CGColorSpaceCreateDeviceGray();
-            bitmapInfo = kCGImageAlphaNone;
-        } else if (image.channels() == 3) {
-            colorSpace = CGColorSpaceCreateDeviceRGB();
-            bitmapInfo = kCGImageAlphaNone;
-            if (iOSimage) {
-                bitmapInfo |= kCGBitmapByteOrder32Little;
-            } else {
-                bitmapInfo |= kCGBitmapByteOrder32Big;
-            }
-        } else {
-            colorSpace = CGColorSpaceCreateDeviceRGB();
-            bitmapInfo = kCGImageAlphaPremultipliedFirst;
-            if (iOSimage) {
-                bitmapInfo |= kCGBitmapByteOrder32Little;
-            } else {
-                bitmapInfo |= kCGBitmapByteOrder32Big;
-            }
-        }
-        
-        if (iOSimage) {
-            context = CGBitmapContextCreate(bufferAddress, width, height, 8, bytesPerRow, colorSpace, bitmapInfo);
-            dstImage = CGBitmapContextCreateImage(context);
-            CGContextRelease(context);
-        } else {
-            
-            NSData *data = [NSData dataWithBytes:image.data length:image.elemSize()*image.total()];
-            CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
-            
-            // Creating CGImage from cv::Mat
-            dstImage = CGImageCreate(image.cols,                                 // width
-                                     image.rows,                                 // height
-                                     8,                                          // bits per component
-                                     8 * image.elemSize(),                       // bits per pixel
-                                     image.step,                                 // bytesPerRow
-                                     colorSpace,                                 // colorspace
-                                     bitmapInfo,                                 // bitmap info
-                                     provider,                                   // CGDataProviderRef
-                                     NULL,                                       // decode
-                                     false,                                      // should interpolate
-                                     kCGRenderingIntentDefault                   // intent
-                                     );
-            
-            CGDataProviderRelease(provider);
-        }
-        
-        // cleanup
-        CGImageRelease(dstImage);
-        
-        CGColorSpaceRelease(colorSpace);
-        
+    
+        [self processImage:image];
+    
         CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Zd6-hd-ziw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -96,9 +96,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5v-Bz-N0d">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5v-Bz-N0d">
                                 <rect key="frame" x="130" y="617" width="115" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="pAz-hu-K7s"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Reset Path">
                                     <color key="titleColor" red="0.67450980390000004" green="0.67450980390000004" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -107,9 +109,26 @@
                                     <action selector="reset_path:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rja-Em-UhB"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NBo-qz-dp9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="609"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="609" id="N1Q-9k-Jrj"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="NBo-qz-dp9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="33q-sr-Jom"/>
+                            <constraint firstItem="Y5v-Bz-N0d" firstAttribute="top" secondItem="NBo-qz-dp9" secondAttribute="bottom" constant="8" symbolic="YES" id="BGa-z5-bJV"/>
+                            <constraint firstItem="NBo-qz-dp9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="c6t-og-eNv"/>
+                            <constraint firstItem="Y5v-Bz-N0d" firstAttribute="centerX" secondItem="NBo-qz-dp9" secondAttribute="centerX" id="iir-0T-l31"/>
+                            <constraint firstAttribute="bottom" secondItem="Y5v-Bz-N0d" secondAttribute="bottom" constant="20" symbolic="YES" id="oUc-CS-KCr"/>
+                            <constraint firstAttribute="trailing" secondItem="NBo-qz-dp9" secondAttribute="trailing" id="wEa-5r-mTR"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="NBo-qz-dp9" id="sWg-ul-EMk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
