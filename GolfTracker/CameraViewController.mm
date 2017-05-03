@@ -21,7 +21,8 @@
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
     cv::Point points[10000];
     size_t num_points;
-    int64 curr_time;
+    UITextView *fpsView_; // Display the current FPS
+    int64 curr_time_; // Store the current time
     cv::Point curr_center;
     cv::Point next_center;
     UIButton *startButton;
@@ -45,7 +46,7 @@ using namespace std;
 - (void)viewDidLoad {
     [super viewDidLoad];
     num_points = 1;
-    float cam_width = 288; float cam_height = 352;
+    float cam_width = 720; float cam_height = 1280;
     
     int view_width = self.view.frame.size.width;
     int view_height = (int)(cam_height*self.view.frame.size.width/cam_width);
@@ -61,14 +62,22 @@ using namespace std;
     self.videoCamera.delegate = self;
     self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
     self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
-    self.videoCamera.defaultFPS = 30; // Set the frame rate
+    self.videoCamera.defaultFPS = 240; // Set the frame rate
     self.videoCamera.grayscaleMode = YES; // Get hsvscale
     self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
     
     // Choose these depending on the camera input chosen
-    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
+    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
     //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
-    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
+    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
+    
+    // Finally add the FPS text to the view
+    fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,view_width,std::max(offset,35))];
+    [fpsView_ setOpaque:false]; // Set to be Opaque
+    [fpsView_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
+    [fpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
+    [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
+    [self.view addSubview:fpsView_];
 
     [videoCamera start];
     self->startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -129,11 +138,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     else hsv = image;
     
     GaussianBlur(hsv, hsv, cv::Size(9, 9), 2, 2 );
-    int64 next_time = getTickCount();
-    
-    curr_time = next_time;
-    
-    
+
     curr_center = next_center;
 
     using namespace cv;
@@ -177,6 +182,18 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         cv::Point end = points[i+1];
         cv::line(image, start, end, Scalar(0,0,255), 2);
     }
+    
+    // Finally estimate the frames per second (FPS)
+    int64 next_time = getTickCount(); // Get the next time stamp
+    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    curr_time_ = next_time; // Update the time
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fpsView_.text = fps_NSStr;
+    });
 }
 
 
