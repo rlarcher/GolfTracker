@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		28D36CBE1EB80CC300F05FC2 /* HomeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */; };
 		28D36CC11EB8113C00F05FC2 /* Golf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 28D36CC01EB8113C00F05FC2 /* Golf.jpg */; };
+		28D36CC41EB8DE8D00F05FC2 /* Helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D36CC31EB8DE8D00F05FC2 /* Helper.mm */; };
+		28D36CC71EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D36CC61EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.mm */; };
 		28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28E857D81E99606B0026488F /* ball_detection.cpp */; };
 		52225F2A1DA04F15005E9EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F291DA04F15005E9EF6 /* main.m */; };
 		52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52225F2C1DA04F15005E9EF6 /* AppDelegate.m */; };
@@ -49,6 +51,10 @@
 		28D36CBB1EB80CC300F05FC2 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HomeViewController.mm; sourceTree = "<group>"; };
 		28D36CC01EB8113C00F05FC2 /* Golf.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Golf.jpg; sourceTree = "<group>"; };
+		28D36CC21EB8DE8D00F05FC2 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
+		28D36CC31EB8DE8D00F05FC2 /* Helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Helper.mm; sourceTree = "<group>"; };
+		28D36CC51EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GolfTrackerVideoDelegate.h; sourceTree = "<group>"; };
+		28D36CC61EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GolfTrackerVideoDelegate.mm; sourceTree = "<group>"; };
 		28E857D81E99606B0026488F /* ball_detection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ball_detection.cpp; sourceTree = "<group>"; };
 		28E857D91E99606B0026488F /* ball_detection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ball_detection.hpp; sourceTree = "<group>"; };
 		52225F251DA04F15005E9EF6 /* GolfTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolfTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +151,10 @@
 				52225F2C1DA04F15005E9EF6 /* AppDelegate.m */,
 				52225F2E1DA04F15005E9EF6 /* CameraViewController.h */,
 				52225F2F1DA04F15005E9EF6 /* CameraViewController.mm */,
+				28D36CC51EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.h */,
+				28D36CC61EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.mm */,
+				28D36CC21EB8DE8D00F05FC2 /* Helper.h */,
+				28D36CC31EB8DE8D00F05FC2 /* Helper.mm */,
 				28D36CBB1EB80CC300F05FC2 /* HomeViewController.h */,
 				28D36CBC1EB80CC300F05FC2 /* HomeViewController.mm */,
 				28E857D81E99606B0026488F /* ball_detection.cpp */,
@@ -318,6 +328,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				28E857DA1E99606B0026488F /* ball_detection.cpp in Sources */,
+				28D36CC71EB94DFA00F05FC2 /* GolfTrackerVideoDelegate.mm in Sources */,
+				28D36CC41EB8DE8D00F05FC2 /* Helper.mm in Sources */,
 				52225F301DA04F15005E9EF6 /* CameraViewController.mm in Sources */,
 				52225F2D1DA04F15005E9EF6 /* AppDelegate.m in Sources */,
 				28D36CBE1EB80CC300F05FC2 /* HomeViewController.mm in Sources */,

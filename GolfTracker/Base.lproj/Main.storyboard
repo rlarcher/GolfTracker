@@ -104,7 +104,7 @@
                                     <color key="titleColor" red="0.67450980390000004" green="0.67450980390000004" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="reset_path:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YL7-g0-DmK"/>
+                                    <action selector="reset_path:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rja-Em-UhB"/>
                                 </connections>
                             </button>
                         </subviews>
