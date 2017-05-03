@@ -33,6 +33,7 @@
     AVCaptureDeviceInput *camera_device_input;
     AVCaptureSession *session;
     AVCaptureVideoDataOutput *output;
+    CAShapeLayer *line_layer;
 }
 
 @end
@@ -46,16 +47,18 @@ using namespace std;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    num_points = 1;
+    num_points = 0;
     
+    // set up calayer for drawing line
+    self->line_layer = [CAShapeLayer layer];
+    self->line_layer.fillColor=[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.1].CGColor;
+    self->line_layer.lineWidth = 2.0f;
+    self->line_layer.lineCap = kCALineCapRound;
+    self->line_layer.strokeColor = [[UIColor redColor] CGColor];
+    [self.view.layer addSublayer:self->line_layer];
     
     session = [[AVCaptureSession alloc] init];
     [session setSessionPreset:AVCaptureSessionPresetHigh];
-    
-    imageView_ = [[UIImageView alloc] init];
-    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 100);
-    imageView_.frame = frame;
-    [self.view addSubview:imageView_];
     
     self->startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     CGSize size = self.view.frame.size;
@@ -94,6 +97,7 @@ using namespace std;
     [self.previewLayer setBounds:layerRect];
     [self.previewLayer setPosition:CGPointMake(CGRectGetMidX(layerRect),
                                                CGRectGetMidY(layerRect))];
+    //[self.previewLayer.connection setVideoOrientation:AVCaptureVideoOrientationLandscapeLeft];
     
     //[self.view.layer addSublayer:self.previewLayer];
     
@@ -226,7 +230,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         //std::abs(1 - (area / (CV_PI * (radius * radius)))) << "\n";
         if (std::abs(1 - ((double)rect.width / rect.height)) <= 0.2
             && std::abs(1 - (area / (CV_PI * (r * r)))) <= 0.2){
-            //std::cout << "adding" << "\n";
+            std::cout << "adding" << "\n";
             cv::minEnclosingCircle(contours[i], center[i], radius[i]);
             double dist = euclideanDist(points[num_points-1].x, center[i].x,
                                         points[num_points-1].y, center[i].y);
@@ -237,25 +241,33 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
                 num_points++;
             }
         }
-    }
+    }/*
     for(size_t i = 1; i < num_points -1; i++) {
         cout << "drawing line\n";
         cv::Point start = points[i];
         cv::Point end = points[i+1];
         cv::line(image, start, end, Scalar(0,0,255), 2);
-    }
+    }*/
+    [self drawLines];
     return image;
 }
 
+- (void) drawLines {
+    UIBezierPath *path=[UIBezierPath bezierPath];
+    CGPoint start = CGPointMake(points[0].x, points[0].y);
+    [path moveToPoint:start];
+    for (size_t i = 1; i < num_points; i++) {
+        [path moveToPoint:CGPointMake(points[i].x, points[i].y)];
+    }
+    self->line_layer.path = path.CGPath;
+    cout << "Updating path\n";
+}
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
-    connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
     (void)captureOutput;
     (void)connection;
     using namespace std;
-    cout << "capturing output\n";
-        cout << "processing image\n";
         // convert from Core Media to Core Video
         CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer, 0);
@@ -355,15 +367,6 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
             
             CGDataProviderRelease(provider);
         }
-        
-        
-        // render buffer
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            cout << "Setting image to modified mat\n";
-            UIImage *newImage = [UIImage imageWithCGImage:dstImage];
-            imageView_.image = newImage;
-        });
-        
         
         // cleanup
         CGImageRelease(dstImage);
