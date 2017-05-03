@@ -24,7 +24,6 @@
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
     cv::Point points[10000];
     size_t num_points;
-    int64 curr_time;
     cv::Point curr_center;
     cv::Point next_center;
     UIButton *startButton;
@@ -38,6 +37,8 @@
     CGFloat scaleFactorX;
     CGFloat scaleFactorY;
     UIBezierPath *path;
+    UITextView *fpsView_;
+    int64 curr_time_; // Store the current time
 }
 
 @end
@@ -53,6 +54,13 @@ using namespace std;
     [super viewDidLoad];
     num_points = 0;
     
+    fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,150,50)];
+    [fpsView_ setOpaque:false]; // Set to be Opaque
+    [fpsView_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
+    [fpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
+    [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
+    [self.view addSubview:fpsView_];
+    
     // set up calayer for drawing line
     self->line_layer = [CAShapeLayer layer];
     self->line_layer.lineWidth = 6.0f;
@@ -61,7 +69,7 @@ using namespace std;
     self->line_layer.strokeColor = [[UIColor redColor] CGColor];
     self->line_layer.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f].CGColor;
     [self.view.layer addSublayer:self->line_layer];
-    path = [[UIBezierPath alloc] init];
+    path = [UIBezierPath bezierPath];
     
     session = [[AVCaptureSession alloc] init];
     //[session setSessionPreset:AVCaptureSessionPresetHigh];
@@ -117,7 +125,7 @@ using namespace std;
     [session addInput:camera_device_input];
 }
 - (IBAction)reset_path:(id)sender {
-    num_points = 1;
+    num_points = 0;
     //[session stopRunning];
     //[[NSOperationQueue mainQueue] waitUntilAllOperationsAreFinished];
     //[self drawLines];
@@ -199,14 +207,8 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         cvtColor(image, hsv, CV_RGB2HSV); // Convert to hsvscale
     else hsv = image;
     
-    GaussianBlur(hsv, hsv, cv::Size(3, 3), 2, 2 );
-    int64 next_time = getTickCount();
+    //GaussianBlur(hsv, hsv, cv::Size(9, 9), 2, 2 );
     
-    curr_time = next_time;
-    
-    
-    curr_center = next_center;
-
     using namespace cv;
     
     Mat threshold_output;
@@ -222,7 +224,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     vector<Point2f>center( contours.size() );
     vector<float>radius( contours.size() );
     
-    for( size_t i = 1; i < contours.size(); i++ )
+    for( size_t i = 0; i < contours.size(); i++ )
     {
         double area = cv::contourArea(contours[i]);
         cv::Rect rect = cv::boundingRect(contours[i]);
@@ -236,11 +238,10 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
             double dist = euclideanDist(points[num_points-1].x, center[i].x,
                                         points[num_points-1].y, center[i].y);
             cout << dist << "\n";
-            //if(dist < 45 || num_points < 5) {
+            if(dist < 45 || num_points < 5) {
                 points[num_points] = center[i];
-                curr_center = center[i];
                 num_points++;
-            //}
+            }
         }
     }/*
     for(size_t i = 1; i < num_points -1; i++) {
@@ -252,12 +253,24 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self drawLines];
     }];
+    
+    // Finally estimate the frames per second (FPS)
+    int64 next_time = getTickCount(); // Get the next time stamp
+    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    curr_time_ = next_time; // Update the time
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    NSLog(@"%@\n", fps_NSStr);
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fpsView_.text = fps_NSStr;
+    });
 }
 
 - (void) drawLines {
-    if (num_points > 1) {
-    /*[self->line_layer removeFromSuperlayer];
-    UIBezierPath *path=[UIBezierPath bezierPath];
+    if (num_points > 2) {
+    [self->line_layer removeFromSuperlayer];
+    /*UIBezierPath *path=[UIBezierPath bezierPath];
     CGPoint start = CGPointMake(points[1].x/scaleFactorX, points[1].y/scaleFactorY);
     [path moveToPoint:start];
     cout << "first point is " << start.x << " " << start.y << "\n";
@@ -273,6 +286,14 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         CGFloat x = points[num_points-1].x / scaleFactorX;
         CGFloat y = points[num_points-1].y / scaleFactorY;
         [path addLineToPoint:CGPointMake(x,y)];
+        self->line_layer.path = path.CGPath;
+        [self.view.layer addSublayer:self->line_layer];
+        cout << "DRAWING\n";
+    } else {
+        cout << "STARTING POINT\n";
+        CGPoint start = CGPointMake(points[2].x/scaleFactorX, points[2].y/scaleFactorY);
+        [path moveToPoint:start];
+        self->line_layer.path = path.CGPath;
     }
 }
 
