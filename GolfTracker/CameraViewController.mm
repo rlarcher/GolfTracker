@@ -219,9 +219,10 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     vector<vector<cv::Point> > contours;
     vector<Vec4i> hierarchy;
     int thresh = 100;
-    threshold( image, image, thresh, 255, THRESH_BINARY );
+    Mat thresholdMat;
+    threshold( image, thresholdMat, thresh, 255, THRESH_BINARY );
     /// Find contours
-    findContours( image, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    findContours( thresholdMat, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
     int max_radius = 0; int max_radius_index = 0;
     vector<vector<cv::Point> > contours_poly( contours.size() );
@@ -243,11 +244,12 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         double perimeter = cv::arcLength(contours[max_radius_index], true);
         double area = contourArea(contours[max_radius_index]);
         double roundness = CircularityStandard(area, perimeter);
-        if (roundness < 4.0) {
+        cout << roundness << "round\n";
+        if (roundness < 2.0 && roundness > 0.4) {
             // good enough approx of a circle
             circle( image, center[max_radius_index], (int)radius[max_radius_index], Scalar(255,0,0), 2, 8, 0 );
             //cout << "Max radius is " << max_radius << "\n";
-            if (max_radius > 100 && max_radius < 400) {
+            if (max_radius < 400) {
                 points[num_points] = center[max_radius_index];
                 speed_count++;
                 num_points++;
@@ -260,7 +262,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     int64 next_time = getTickCount(); // Get the next time stamp
     int64 time_diff = next_time - curr_time_;
     float fps = (float)getTickFrequency()/(time_diff); // Estimate the fps
-    if(speed_count > 0) {
+    if(speed_count > 0 && num_points > 2) {
         Point2f center1 = center[num_points-2];
         Point2f center2 = center[num_points-1];
         int distance = euclideanDist(center1.x, center2.x, center1.y, center2.y);

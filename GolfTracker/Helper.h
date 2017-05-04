@@ -16,5 +16,5 @@
 + (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toGrayscaleMat:(cv::Mat &)mat;
 +(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
 + (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
-
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image;
 @end
