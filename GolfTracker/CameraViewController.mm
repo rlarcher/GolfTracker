@@ -14,13 +14,13 @@
 #include <opencv2/opencv.hpp> // Includes the opencv library
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
+#include "ball_detection.hpp"
 #include <stdlib.h> // Include the standard library
 #include <iostream>
 #endif
 
 
 @interface CameraViewController(){
-    UIImageView *imageView_; // Setup the image view
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
     cv::Point points[10000];
     size_t num_points;
@@ -38,21 +38,21 @@
     CGFloat scaleFactorY;
     UIBezierPath *path;
     UITextView *fpsView_;
+    UITextView *mpsView_;
     int64 curr_time_; // Store the current time
+    int speed_count;
 }
 
 @end
 
 @implementation CameraViewController
 
-const cv::Scalar RED = cv::Scalar(255, 0, 0);
-const float GOLF_BALL_MILLI_RADIUS = 21.3;
-
 using namespace std;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     num_points = 0;
+    speed_count = 0;
     
     fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,150,50)];
     [fpsView_ setOpaque:false]; // Set to be Opaque
@@ -61,8 +61,16 @@ using namespace std;
     [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
     [self.view addSubview:fpsView_];
     
+    mpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(300, 15, 150, 50)];
+    [mpsView_ setOpaque:false];
+    [mpsView_ setBackgroundColor:[UIColor clearColor]];
+    [mpsView_ setTextColor:[UIColor redColor]];
+    [mpsView_ setFont:[UIFont systemFontOfSize:18]];
+    [self.view addSubview:mpsView_];
+    
     // set up calayer for drawing line
     self->line_layer = [CAShapeLayer layer];
+    self->line_layer.opaque = YES;
     self->line_layer.lineWidth = 6.0f;
     [self->line_layer setFillColor:[[UIColor colorWithWhite:0 alpha:0] CGColor]];
     self->line_layer.lineCap = kCALineCapRound;
@@ -101,7 +109,7 @@ using namespace std;
     
     [self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     self.previewLayer.frame = self.view.bounds;
-    [self.view.layer addSublayer:self.previewLayer];
+    //[self.view.layer addSublayer:self.previewLayer];
     
     [captureSession startRunning];
 }
@@ -116,7 +124,17 @@ using namespace std;
     dispatch_queue_t queue = dispatch_queue_create("output_queue", NULL);
     [output setSampleBufferDelegate:self queue:queue];
     [[output connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
+    [[output connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[self videoOrientationFromDeviceOrientation]];
     [session addOutput:output];
+}
+
+-(AVCaptureVideoOrientation)videoOrientationFromDeviceOrientation {
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    AVCaptureVideoOrientation result;
+    if ( orientation == UIDeviceOrientationLandscapeLeft )
+        result = AVCaptureVideoOrientationLandscapeRight;
+    else result = AVCaptureVideoOrientationLandscapeLeft;
+    return result;
 }
 
 - (void) configureInput {
@@ -137,7 +155,7 @@ using namespace std;
     AVFrameRateRange *bestFrameRateRange = nil;
     for (AVCaptureDeviceFormat *format in [device formats] ) {
         for (AVFrameRateRange *range in format.videoSupportedFrameRateRanges ) {
-            if (range.maxFrameRate < bestFrameRateRange.maxFrameRate ) {
+            if (range.maxFrameRate > bestFrameRateRange.maxFrameRate ) {
                 bestFormat = format;
                 bestFrameRateRange = range;
                 cout << "Got best format " << range.maxFrameRate << "\n";
@@ -147,6 +165,7 @@ using namespace std;
     if (bestFormat) {
         if ([device lockForConfiguration:NULL] == YES) {
             // lock config
+            cout << "using best format " << bestFrameRateRange.maxFrameRate << "\n";
             device.activeFormat = bestFormat;
             device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
             device.activeVideoMinFrameDuration = bestFrameRateRange.minFrameDuration;
@@ -194,108 +213,95 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
 {
     scaleFactorX = image.rows / self->imageView.frame.size.width;
     scaleFactorY = image.cols / self->imageView.frame.size.height;
-    // Now apply Brisk features on the live camera
     using namespace cv;
-    
-    cout << "Processing image\n";
-    
-    // Convert image to hsvscale....
-    //std::cout << image.channels() << std::endl;
-    
-    Mat hsv;
-    if(image.channels() == 4)
-        cvtColor(image, hsv, CV_RGB2HSV); // Convert to hsvscale
-    else hsv = image;
-    
-    //GaussianBlur(hsv, hsv, cv::Size(9, 9), 2, 2 );
-    
-    using namespace cv;
-    
-    Mat threshold_output;
+
+    Mat canny_output;
     vector<vector<cv::Point> > contours;
     vector<Vec4i> hierarchy;
-    //threshold( hsv, threshold_output, 127, 255, THRESH_BINARY );
+    int thresh = 100;
+    threshold( image, image, thresh, 255, THRESH_BINARY );
+    /// Find contours
+    findContours( image, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
-    inRange(hsv, cv::Scalar(0, 0, 200, 0), cv::Scalar(180, 255, 255, 0), threshold_output);
-    
-    findContours( threshold_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    int max_radius = 0; int max_radius_index = 0;
     vector<vector<cv::Point> > contours_poly( contours.size() );
     vector<cv::Rect> boundRect( contours.size() );
     vector<Point2f>center( contours.size() );
     vector<float>radius( contours.size() );
-    
-    for( size_t i = 0; i < contours.size(); i++ )
+    for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
     {
-        double area = cv::contourArea(contours[i]);
-        cv::Rect rect = cv::boundingRect(contours[i]);
-        int r = rect.width / 2;
-        //std::cout << std::abs(1 - ((double)rect.width / rect.height)) << " " <<
-        //std::abs(1 - (area / (CV_PI * (radius * radius)))) << "\n";
-        if (std::abs(1 - ((double)rect.width / rect.height)) <= 0.2
-            && std::abs(1 - (area / (CV_PI * (r * r)))) <= 0.2){
-            std::cout << "adding" << "\n";
-            cv::minEnclosingCircle(contours[i], center[i], radius[i]);
-            double dist = euclideanDist(points[num_points-1].x, center[i].x,
-                                        points[num_points-1].y, center[i].y);
-            cout << dist << "\n";
-            if(dist < 45 || num_points < 5) {
-                points[num_points] = center[i];
+        approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
+        minEnclosingCircle( (Mat)contours_poly[i], center[i], radius[i] );
+        if( radius[i] > max_radius )
+        {
+            max_radius = radius[i];
+            max_radius_index = i;               //Store the index of largest contour
+        }
+    }
+    
+    if (contours.size() > 0) {
+        double perimeter = cv::arcLength(contours[max_radius_index], true);
+        double area = contourArea(contours[max_radius_index]);
+        double roundness = CircularityStandard(area, perimeter);
+        if (roundness < 4.0) {
+            // good enough approx of a circle
+            circle( image, center[max_radius_index], (int)radius[max_radius_index], Scalar(255,0,0), 2, 8, 0 );
+            //cout << "Max radius is " << max_radius << "\n";
+            if (max_radius > 100 && max_radius < 400) {
+                points[num_points] = center[max_radius_index];
+                speed_count++;
                 num_points++;
+            } else {
+                speed_count = 0;
             }
         }
-    }/*
-    for(size_t i = 1; i < num_points -1; i++) {
-        cout << "drawing line\n";
-        cv::Point start = points[i];
-        cv::Point end = points[i+1];
-        cv::line(image, start, end, Scalar(0,0,255), 2);
-    }*/
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self drawLines];
-    }];
-    
+    }
     // Finally estimate the frames per second (FPS)
     int64 next_time = getTickCount(); // Get the next time stamp
-    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    int64 time_diff = next_time - curr_time_;
+    float fps = (float)getTickFrequency()/(time_diff); // Estimate the fps
+    if(speed_count > 0) {
+        Point2f center1 = center[num_points-2];
+        Point2f center2 = center[num_points-1];
+        int distance = euclideanDist(center1.x, center2.x, center1.y, center2.y);
+        cout << distance << "\n";
+        float dist_mm = cv_points_to_mm(distance, radius[num_points-1]);
+        cout << dist_mm << "\n";
+        float speed = get_speed(dist_mm*1000, time_diff);
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", speed];
+            mpsView_.text = mps_NSStr;
+            NSLog(@"%@", mps_NSStr);
+        });
+    }
     curr_time_ = next_time; // Update the time
     NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
-    NSLog(@"%@\n", fps_NSStr);
+    //NSLog(@"%@\n", fps_NSStr);
     // Have to do this so as to communicate with the main thread
     // to update the text display
+    cv::Mat color;
+    [self drawLines:image];
+    cvtColor(image, color, CV_GRAY2RGB);
+    UIImage *uiImage = [Helper UIImageFromCVMat:color];
+    UIImage *finalImage = [[UIImage alloc] initWithCGImage: uiImage.CGImage
+                                                     scale: 1.0
+                                               orientation: UIImageOrientationRight];
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
+        self->imageView.image = finalImage;
     });
 }
 
-- (void) drawLines {
-    if (num_points > 2) {
-    [self->line_layer removeFromSuperlayer];
-    /*UIBezierPath *path=[UIBezierPath bezierPath];
-    CGPoint start = CGPointMake(points[1].x/scaleFactorX, points[1].y/scaleFactorY);
-    [path moveToPoint:start];
-    cout << "first point is " << start.x << " " << start.y << "\n";
-    for (size_t i = 1; i < num_points; i++) {
-        CGFloat x = points[i].x / scaleFactorX;
-        CGFloat y = points[i].y / scaleFactorY;
-        [path addLineToPoint:CGPointMake(y, x)];
-        cout << "moving to " << x << " and " << y << "\n";
-    }
-    self->line_layer.path = path.CGPath;
-    [self.view.layer addSublayer:self->line_layer];
-     */
-        CGFloat x = points[num_points-1].x / scaleFactorX;
-        CGFloat y = points[num_points-1].y / scaleFactorY;
-        [path addLineToPoint:CGPointMake(x,y)];
-        self->line_layer.path = path.CGPath;
-        [self.view.layer addSublayer:self->line_layer];
-        cout << "DRAWING\n";
-    } else {
-        cout << "STARTING POINT\n";
-        CGPoint start = CGPointMake(points[2].x/scaleFactorX, points[2].y/scaleFactorY);
-        [path moveToPoint:start];
-        self->line_layer.path = path.CGPath;
+
+
+- (void) drawLines:(cv::Mat &)image {
+    if (num_points > 1) {
+        for(size_t i = 1; i < num_points; i++) {
+            cv::line(image, points[i-1], points[i], cvScalar(255,0,0), 3);
+        }
     }
 }
+
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
@@ -315,7 +321,6 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         
         OSType format = CVPixelBufferGetPixelFormatType(imageBuffer);
         if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
-            
             format_opencv = CV_8UC1;
             
             bufferAddress = CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);
