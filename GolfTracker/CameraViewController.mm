@@ -33,8 +33,9 @@
     AVCaptureSession *session;
     AVCaptureVideoDataOutput *output;
     CAShapeLayer *line_layer;
-    IBOutlet UIImageView *imageView;
+    UIImageView *imageView;
     CGFloat scaleFactorX;
+    UIImageView *threshView;
     CGFloat scaleFactorY;
     UIBezierPath *path;
     UITextView *fpsView_;
@@ -53,6 +54,13 @@ using namespace std;
     [super viewDidLoad];
     num_points = 0;
     speed_count = 0;
+    
+    CGSize frameSize = self.view.frame.size;
+    self->imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frameSize.width, frameSize.height/2-20)];
+    [self.view addSubview:self->imageView];
+    
+    self->threshView = [[UIImageView alloc] initWithFrame:CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2-20)];
+    [self.view addSubview:self->threshView];
     
     fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,150,50)];
     [fpsView_ setOpaque:false]; // Set to be Opaque
@@ -288,9 +296,12 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     UIImage *finalImage = [[UIImage alloc] initWithCGImage: uiImage.CGImage
                                                      scale: 1.0
                                                orientation: UIImageOrientationRight];
+    UIImage *threshImage = [Helper UIImageFromCVMat:thresholdMat];
+    UIImage *finalMatImage = [[UIImage alloc] initWithCGImage:threshImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
     dispatch_sync(dispatch_get_main_queue(), ^{
         fpsView_.text = fps_NSStr;
         self->imageView.image = finalImage;
+        self->threshView.image = finalMatImage;
     });
 }
 
