@@ -89,7 +89,7 @@ using namespace std;
     
     session = [[AVCaptureSession alloc] init];
     //[session setSessionPreset:AVCaptureSessionPresetHigh];
-    
+
     self->startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     CGSize size = self.view.frame.size;
     CGRect button_frame = CGRectMake(size.width / 2, size.height - 100, 50, 50);
@@ -223,7 +223,6 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     scaleFactorY = image.cols / self->imageView.frame.size.height;
     using namespace cv;
 
-    Mat canny_output;
     vector<vector<cv::Point> > contours;
     vector<Vec4i> hierarchy;
     int thresh = 100;
@@ -315,6 +314,18 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
             cv::line(image, points[i-1], points[i], cvScalar(255,0,0), 3);
         }
     }
+    
+    // Finally estimate the frames per second (FPS)
+    int64 next_time = getTickCount(); // Get the next time stamp
+    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    curr_time_ = next_time; // Update the time
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fpsView_.text = fps_NSStr;
+    });
 }
 
 
