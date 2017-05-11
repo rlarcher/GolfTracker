@@ -7,87 +7,180 @@
 //
 
 #import "CameraViewController.h"
+#import <AVFoundation/AVCaptureOutput.h>
+#import "GolfTrackerVideoDelegate.h"
 
 #ifdef __cplusplus
 #include <opencv2/opencv.hpp> // Includes the opencv library
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
+#include "ball_detection.hpp"
 #include <stdlib.h> // Include the standard library
 #include <iostream>
 #endif
 
+
 @interface CameraViewController(){
-    UIImageView *imageView_; // Setup the image view
     cv::vector<cv::Vec3f> golf_balls_; // vector of golf balls being detected
     cv::Point points[10000];
     size_t num_points;
-    UITextView *fpsView_; // Display the current FPS
-    int64 curr_time_; // Store the current time
     cv::Point curr_center;
     cv::Point next_center;
     UIButton *startButton;
     bool stopped;
+    AVCaptureDevice *camera_device;
+    AVCaptureDeviceInput *camera_device_input;
+    AVCaptureSession *session;
+    AVCaptureVideoDataOutput *output;
+    CAShapeLayer *line_layer;
+    UIImageView *imageView;
+    CGFloat scaleFactorX;
+    UIImageView *threshView;
+    CGFloat scaleFactorY;
+    UIBezierPath *path;
+    UITextView *fpsView_;
+    UITextView *mpsView_;
+    int64 curr_time_; // Store the current time
+    int speed_count;
 }
 
 @end
 
 @implementation CameraViewController
 
-const cv::Scalar RED = cv::Scalar(255, 0, 0);
-const float GOLF_BALL_MILLI_RADIUS = 21.3;
-
 using namespace std;
-
-@synthesize videoCamera;
-- (IBAction)reset_path:(id)sender {
-    num_points = 1;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    num_points = 1;
-    float cam_width = 720; float cam_height = 1280;
+    num_points = 0;
+    speed_count = 0;
     
-    int view_width = self.view.frame.size.width;
-    int view_height = (int)(cam_height*self.view.frame.size.width/cam_width);
-    int offset = (self.view.frame.size.height - view_height)/2;
+    CGSize frameSize = self.view.frame.size;
+    self->imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frameSize.width, frameSize.height/2-20)];
+    [self.view addSubview:self->imageView];
     
-    imageView_ = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, offset, view_width, view_height-50)];
+    self->threshView = [[UIImageView alloc] initWithFrame:CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2-20)];
+    [self.view addSubview:self->threshView];
     
-    //[imageView_ setContentMode:UIViewContentModeScaleAspectFill]; (does not work)
-    [self.view addSubview:imageView_]; // Add the view
-    
-    // Initialize the video camera
-    self.videoCamera = [[CvVideoCamera alloc] initWithParentView:imageView_];
-    self.videoCamera.delegate = self;
-    self.videoCamera.defaultAVCaptureDevicePosition = AVCaptureDevicePositionBack;
-    self.videoCamera.defaultAVCaptureVideoOrientation = AVCaptureVideoOrientationPortrait;
-    self.videoCamera.defaultFPS = 240; // Set the frame rate
-    self.videoCamera.grayscaleMode = YES; // Get hsvscale
-    self.videoCamera.rotateVideo = YES; // Rotate video so everything looks correct
-    
-    // Choose these depending on the camera input chosen
-    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset352x288;
-    //self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset640x480;
-    self.videoCamera.defaultAVCaptureSessionPreset = AVCaptureSessionPreset1280x720;
-    
-    // Finally add the FPS text to the view
-    fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,view_width,std::max(offset,35))];
+    fpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(0,15,150,50)];
     [fpsView_ setOpaque:false]; // Set to be Opaque
     [fpsView_ setBackgroundColor:[UIColor clearColor]]; // Set background color to be clear
     [fpsView_ setTextColor:[UIColor redColor]]; // Set text to be RED
     [fpsView_ setFont:[UIFont systemFontOfSize:18]]; // Set the Font size
     [self.view addSubview:fpsView_];
+    
+    mpsView_ = [[UITextView alloc] initWithFrame:CGRectMake(300, 15, 150, 50)];
+    [mpsView_ setOpaque:false];
+    [mpsView_ setBackgroundColor:[UIColor clearColor]];
+    [mpsView_ setTextColor:[UIColor redColor]];
+    [mpsView_ setFont:[UIFont systemFontOfSize:18]];
+    [self.view addSubview:mpsView_];
+    
+    // set up calayer for drawing line
+    self->line_layer = [CAShapeLayer layer];
+    self->line_layer.opaque = YES;
+    self->line_layer.lineWidth = 6.0f;
+    [self->line_layer setFillColor:[[UIColor colorWithWhite:0 alpha:0] CGColor]];
+    self->line_layer.lineCap = kCALineCapRound;
+    self->line_layer.strokeColor = [[UIColor redColor] CGColor];
+    self->line_layer.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f].CGColor;
+    [self.view.layer addSublayer:self->line_layer];
+    path = [UIBezierPath bezierPath];
+    
+    session = [[AVCaptureSession alloc] init];
+    //[session setSessionPreset:AVCaptureSessionPresetHigh];
 
-    [videoCamera start];
     self->startButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     CGSize size = self.view.frame.size;
-    CGRect frame = CGRectMake(size.width / 2, size.height - 100, 50, 50);
-    self->startButton.frame = frame;
+    CGRect button_frame = CGRectMake(size.width / 2, size.height - 100, 50, 50);
+    self->startButton.frame = button_frame;
     self->startButton.titleLabel.text = @"Start";
     [startButton addTarget:self action:@selector(start) forControlEvents:UIControlEventTouchUpInside];
     //[self.view addSubview:self->startButton];
-    //[self.videoCamera start];
+    
+    camera_device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    if (camera_device != NULL) {
+        [self configureCameraForHighestFrameRate:camera_device];
+        [self configureInput];
+        [self configureOutput];
+        [session commitConfiguration];
+    }
+    
+    //[session startRunning];
+    [self startCapturingWithSession:session];
+}
+
+- (void)startCapturingWithSession: (AVCaptureSession *) captureSession
+{
+    self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
+    
+    [self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    self.previewLayer.frame = self.view.bounds;
+    //[self.view.layer addSublayer:self.previewLayer];
+    
+    [captureSession startRunning];
+}
+
+- (void) configureOutput {
+    // create camera output
+    output = [AVCaptureVideoDataOutput new];
+    
+    output.videoSettings = [NSDictionary dictionaryWithObject: [NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarFullRange] forKey: (id)kCVPixelBufferPixelFormatTypeKey];
+    [output setAlwaysDiscardsLateVideoFrames:YES];
+    // set output delegate to self
+    dispatch_queue_t queue = dispatch_queue_create("output_queue", NULL);
+    [output setSampleBufferDelegate:self queue:queue];
+    [[output connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
+    [[output connectionWithMediaType:AVMediaTypeVideo] setVideoOrientation:[self videoOrientationFromDeviceOrientation]];
+    [session addOutput:output];
+}
+
+-(AVCaptureVideoOrientation)videoOrientationFromDeviceOrientation {
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    AVCaptureVideoOrientation result;
+    if ( orientation == UIDeviceOrientationLandscapeLeft )
+        result = AVCaptureVideoOrientationLandscapeRight;
+    else result = AVCaptureVideoOrientationLandscapeLeft;
+    return result;
+}
+
+- (void) configureInput {
+    NSError *error = NULL;
+    camera_device_input = [AVCaptureDeviceInput deviceInputWithDevice: camera_device error: &error];
+    [session addInput:camera_device_input];
+}
+- (IBAction)reset_path:(id)sender {
+    num_points = 0;
+    //[session stopRunning];
+    //[[NSOperationQueue mainQueue] waitUntilAllOperationsAreFinished];
+    //[self drawLines];
+}
+
+- (void)configureCameraForHighestFrameRate:(AVCaptureDevice *)device
+{
+    AVCaptureDeviceFormat *bestFormat = nil;
+    AVFrameRateRange *bestFrameRateRange = nil;
+    for (AVCaptureDeviceFormat *format in [device formats] ) {
+        for (AVFrameRateRange *range in format.videoSupportedFrameRateRanges ) {
+            if (range.maxFrameRate > bestFrameRateRange.maxFrameRate ) {
+                bestFormat = format;
+                bestFrameRateRange = range;
+                cout << "Got best format " << range.maxFrameRate << "\n";
+            }
+        }
+    }
+    if (bestFormat) {
+        if ([device lockForConfiguration:NULL] == YES) {
+            // lock config
+            cout << "using best format " << bestFrameRateRange.maxFrameRate << "\n";
+            device.activeFormat = bestFormat;
+            device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+            device.activeVideoMinFrameDuration = bestFrameRateRange.minFrameDuration;
+            device.activeVideoMaxFrameDuration = bestFrameRateRange.minFrameDuration;
+            [device unlockForConfiguration];
+        }
+    }
 }
 
 - (void)start:(id)sender
@@ -126,66 +219,105 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
 // Function to run apply image on
 - (void) processImage:(cv:: Mat &)image
 {
-    // Now apply Brisk features on the live camera
+    scaleFactorX = image.rows / self->imageView.frame.size.width;
+    scaleFactorY = image.cols / self->imageView.frame.size.height;
     using namespace cv;
-    
-    // Convert image to hsvscale....
-    //std::cout << image.channels() << std::endl;
-    
-    Mat hsv;
-    if(image.channels() == 4)
-        cvtColor(image, hsv, CV_RGB2HSV); // Convert to hsvscale
-    else hsv = image;
-    
-    GaussianBlur(hsv, hsv, cv::Size(9, 9), 2, 2 );
 
-    curr_center = next_center;
-
-    using namespace cv;
-    
-    Mat threshold_output;
     vector<vector<cv::Point> > contours;
     vector<Vec4i> hierarchy;
-    //threshold( hsv, threshold_output, 127, 255, THRESH_BINARY );
+    int thresh = 100;
+    Mat thresholdMat;
+    threshold( image, thresholdMat, thresh, 255, THRESH_BINARY );
+    /// Find contours
+    findContours( thresholdMat, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
     
-    inRange(hsv, cv::Scalar(0, 0, 200, 0), cv::Scalar(180, 255, 255, 0), threshold_output);
-    
-    findContours( threshold_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+    int max_radius = 0; int max_radius_index = 0;
     vector<vector<cv::Point> > contours_poly( contours.size() );
     vector<cv::Rect> boundRect( contours.size() );
     vector<Point2f>center( contours.size() );
     vector<float>radius( contours.size() );
-    
-    for( size_t i = 1; i < contours.size(); i++ )
+    vector<double>roundnesses(10000);
+    for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
     {
-        double area = cv::contourArea(contours[i]);
-        cv::Rect rect = cv::boundingRect(contours[i]);
-        int r = rect.width / 2;
-        //std::cout << std::abs(1 - ((double)rect.width / rect.height)) << " " <<
-        //std::abs(1 - (area / (CV_PI * (radius * radius)))) << "\n";
-        if (std::abs(1 - ((double)rect.width / rect.height)) <= 0.2
-            && std::abs(1 - (area / (CV_PI * (r * r)))) <= 0.2){
-            //std::cout << "adding" << "\n";
-            cv::minEnclosingCircle(contours[i], center[i], radius[i]);
-            double dist = euclideanDist(points[num_points-1].x, center[i].x,
-                                        points[num_points-1].y, center[i].y);
-            cout << dist << "\n";
-            if(dist < 45 || num_points < 5) {
-                points[num_points] = center[i];
-                curr_center = center[i];
+        approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
+        minEnclosingCircle( (Mat)contours_poly[i], center[i], radius[i] );
+        double perimeter = cv::arcLength(contours[i], true);
+        double area = contourArea(contours[i]);
+        double roundness = CircularityStandard(area, perimeter);
+        roundnesses[i] = roundness;
+        if( radius[i] > max_radius && roundness > 0.5)
+        {
+            max_radius = radius[i];
+            max_radius_index = i;               //Store the index of largest contour
+        }
+    }
+    
+    if (contours.size() > 0) {
+        double roundness = roundnesses[max_radius_index];
+        if (roundness < 2.0 && roundness > 0.4) {
+            // good enough approx of a circle
+            circle( image, center[max_radius_index], (int)radius[max_radius_index], Scalar(255,0,0), 2, 8, 0 );
+            //cout << "Max radius is " << max_radius << "\n";
+            if (max_radius < 400) {
+                points[num_points] = center[max_radius_index];
+                speed_count++;
                 num_points++;
+            } else {
+                speed_count = 0;
             }
         }
     }
-    for(size_t i = 1; i < num_points -1; i++) {
-        cv::Point start = points[i];
-        cv::Point end = points[i+1];
-        cv::line(image, start, end, Scalar(0,0,255), 2);
+    // Finally estimate the frames per second (FPS)
+    int64 next_time = getTickCount(); // Get the next time stamp
+    int64 time_diff = next_time - curr_time_;
+    float fps = (float)getTickFrequency()/(time_diff); // Estimate the fps
+    if(speed_count > 0 && num_points > 2) {
+        Point2f center1 = points[num_points-2];
+        Point2f center2 = points[num_points-1];
+        int distance = euclideanDist(center1.x, center2.x, center1.y, center2.y);
+        cout << distance << "\n";
+        float dist_mm = cv_points_to_mm(distance, radius[num_points-1]);
+        cout << dist_mm << "\n";
+        float speed = get_speed(dist_mm*1000, time_diff);
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", speed];
+            mpsView_.text = mps_NSStr;
+            NSLog(@"%@", mps_NSStr);
+        });
+    }
+    curr_time_ = next_time; // Update the time
+    NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
+    //NSLog(@"%@\n", fps_NSStr);
+    // Have to do this so as to communicate with the main thread
+    // to update the text display
+    cv::Mat color;
+    [self drawLines:image];
+    cvtColor(image, color, CV_GRAY2RGB);
+    UIImage *uiImage = [Helper UIImageFromCVMat:color];
+    UIImage *finalImage = [[UIImage alloc] initWithCGImage: uiImage.CGImage
+                                                     scale: 1.0
+                                               orientation: UIImageOrientationRight];
+    UIImage *threshImage = [Helper UIImageFromCVMat:thresholdMat];
+    UIImage *finalMatImage = [[UIImage alloc] initWithCGImage:threshImage.CGImage scale:1.0 orientation:UIImageOrientationRight];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        fpsView_.text = fps_NSStr;
+        self->imageView.image = finalImage;
+        self->threshView.image = finalMatImage;
+    });
+}
+
+
+
+- (void) drawLines:(cv::Mat &)image {
+    if (num_points > 1) {
+        for(size_t i = 1; i < num_points; i++) {
+            cv::line(image, points[i-1], points[i], cvScalar(255,0,0), 3);
+        }
     }
     
     // Finally estimate the frames per second (FPS)
-    int64 next_time = getTickCount(); // Get the next time stamp
-    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    int64 next_time = cv::getTickCount(); // Get the next time stamp
+    float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
     curr_time_ = next_time; // Update the time
     NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
     
@@ -196,5 +328,50 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     });
 }
 
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    (void)captureOutput;
+    (void)connection;
+    using namespace std;
+        // convert from Core Media to Core Video
+        CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+        CVPixelBufferLockBaseAddress(imageBuffer, 0);
+        
+        void* bufferAddress;
+        size_t width;
+        size_t height;
+        size_t bytesPerRow;
+        
+        int format_opencv;
+        
+        OSType format = CVPixelBufferGetPixelFormatType(imageBuffer);
+        if (format == kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
+            format_opencv = CV_8UC1;
+            
+            bufferAddress = CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);
+            width = CVPixelBufferGetWidthOfPlane(imageBuffer, 0);
+            height = CVPixelBufferGetHeightOfPlane(imageBuffer, 0);
+            bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0);
+            
+        } else { // expect kCVPixelFormatType_32BGRA
+            
+            format_opencv = CV_8UC4;
+            
+            bufferAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+            width = CVPixelBufferGetWidth(imageBuffer);
+            height = CVPixelBufferGetHeight(imageBuffer);
+            bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+            
+        }
+        
+        // delegate image processing to the delegate
+        cv::Mat image((int)height, (int)width, format_opencv, bufferAddress, bytesPerRow);
+    
+        [self processImage:image];
+    
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+
+}
 
 @end

@@ -14,5 +14,7 @@
 // this is necessary to convert to opencv format
 // method used from https://mkonrad.net/2014/06/24/cvvideocamera-vs-native-ios-camera-apis.html
 + (void)convertYUVSampleBuffer:(CMSampleBufferRef)buf toGrayscaleMat:(cv::Mat &)mat;
-
++(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat;
++ (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
++ (cv::Mat)cvMatFromUIImage:(UIImage *)image;
 @end

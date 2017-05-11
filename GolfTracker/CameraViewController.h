@@ -8,15 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <opencv2/highgui/ios.h>
+#import "Helper.h"
+#import "GolfTrackerVideoDelegate.h"
 
-// Slightly changed things here to employ the CvVideoCameraDelegate
-@interface CameraViewController : UIViewController<CvVideoCameraDelegate>
-{
-    CvVideoCamera *videoCamera; // OpenCV class for accessing the camera
-}
-// Declare internal property of videoCamera
-@property (nonatomic, retain) CvVideoCamera *videoCamera;
-
+@interface CameraViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate>
 @property bool finding_speed;
-
+@property AVCaptureVideoPreviewLayer *previewLayer;
 @end

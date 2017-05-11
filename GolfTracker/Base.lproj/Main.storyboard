@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Zd6-hd-ziw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,26 +14,27 @@
             <objects>
                 <viewController id="Zd6-hd-ziw" customClass="HomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zgQ-iI-5jk"/>
-                        <viewControllerLayoutGuide type="bottom" id="NsY-HE-Av0"/>
+                        <viewControllerLayoutGuide type="top" id="cKp-pH-01B"/>
+                        <viewControllerLayoutGuide type="bottom" id="HyB-c0-mHH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="D1H-Qv-bq1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nDZ-kK-3P3">
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nDZ-kK-3P3">
                                 <rect key="frame" x="131" y="85" width="113" height="26.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lYr-fq-pYu">
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lYr-fq-pYu">
                                         <rect key="frame" x="0.0" y="0.0" width="113" height="26.5"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kGO-EJ-hNA">
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kGO-EJ-hNA">
                                                 <rect key="frame" x="0.0" y="0.0" width="113" height="26.5"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZnR-be-pRf">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZnR-be-pRf">
                                                         <rect key="frame" x="0.0" y="0.0" width="113" height="26.5"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GolfTracker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXQ-8h-sml">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="GolfTracker" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXQ-8h-sml">
                                                                 <rect key="frame" x="0.0" y="0.0" width="113" height="26.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                                 <nil key="textColor"/>
@@ -48,15 +48,17 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5E-Xg-731">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5E-Xg-731">
                                 <rect key="frame" x="136" y="310" width="103" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Trace Ball Path"/>
                                 <connections>
                                     <action selector="trace_ball:" destination="Zd6-hd-ziw" eventType="touchUpInside" id="GdO-gi-vp6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4h-R9-LwN">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4h-R9-LwN">
                                 <rect key="frame" x="132" y="234" width="112" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Calculate Speed"/>
                                 <connections>
                                     <action selector="calculate_speed:" destination="Zd6-hd-ziw" eventType="touchUpInside" id="pge-yH-0qA"/>
@@ -64,56 +66,55 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="nDZ-kK-3P3" firstAttribute="leading" secondItem="D1H-Qv-bq1" secondAttribute="leadingMargin" constant="115" id="9ly-SX-RK4"/>
-                            <constraint firstItem="E4h-R9-LwN" firstAttribute="top" secondItem="nDZ-kK-3P3" secondAttribute="bottom" constant="122.5" id="AmD-np-acX"/>
-                            <constraint firstItem="nDZ-kK-3P3" firstAttribute="top" secondItem="zgQ-iI-5jk" secondAttribute="bottom" constant="65" id="BAz-S7-pJO"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nDZ-kK-3P3" secondAttribute="trailing" constant="115" id="Fx8-XG-t9k"/>
-                            <constraint firstItem="c5E-Xg-731" firstAttribute="leading" secondItem="D1H-Qv-bq1" secondAttribute="leadingMargin" constant="120" id="I1X-YC-bsX"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="c5E-Xg-731" secondAttribute="trailing" constant="120" id="ang-EN-lgb"/>
-                            <constraint firstItem="E4h-R9-LwN" firstAttribute="leading" secondItem="D1H-Qv-bq1" secondAttribute="leadingMargin" constant="116" id="hGR-U0-htd"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="E4h-R9-LwN" secondAttribute="trailing" constant="115" id="hvl-cC-6Yx"/>
-                            <constraint firstItem="c5E-Xg-731" firstAttribute="top" secondItem="E4h-R9-LwN" secondAttribute="bottom" constant="46" id="qbL-IS-IIe"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="ShowCamera" id="TNf-bs-XgM"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="ShowCamera" id="TNf-bs-XgM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A6F-2M-dI7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.800000000000001" y="-793.8530734632684"/>
+            <point key="canvasLocation" x="15.5" y="-882.5"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CameraViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="Y3Q-3i-E4l"/>
+                        <viewControllerLayoutGuide type="bottom" id="oLn-Dw-z3k"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5v-Bz-N0d">
-                                <rect key="frame" x="130" y="617" width="115" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5v-Bz-N0d">
+                                <rect key="frame" x="130" y="613" width="115" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="onh-bN-3D4"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Reset Path">
                                     <color key="titleColor" red="0.67450980390000004" green="0.67450980390000004" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="reset_path:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YL7-g0-DmK"/>
+                                    <action selector="reset_path:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rja-Em-UhB"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Y5v-Bz-N0d" secondAttribute="bottom" constant="20" symbolic="YES" id="FS9-Jf-bkX"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="36" y="40.929535232383813"/>
+            <point key="canvasLocation" x="22.5" y="45.5"/>
         </scene>
     </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>
