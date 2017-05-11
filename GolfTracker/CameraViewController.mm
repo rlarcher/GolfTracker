@@ -280,7 +280,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
         cout << dist_mm << "\n";
         float speed = get_speed(dist_mm*1000, time_diff);
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", 0];
+            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", speed];
             mpsView_.text = mps_NSStr;
             NSLog(@"%@", mps_NSStr);
         });
@@ -316,8 +316,8 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     }
     
     // Finally estimate the frames per second (FPS)
-    int64 next_time = getTickCount(); // Get the next time stamp
-    float fps = (float)getTickFrequency()/(next_time - curr_time_); // Estimate the fps
+    int64 next_time = cv::getTickCount(); // Get the next time stamp
+    float fps = (float)cv::getTickFrequency()/(next_time - curr_time_); // Estimate the fps
     curr_time_ = next_time; // Update the time
     NSString *fps_NSStr = [NSString stringWithFormat:@"FPS = %2.2f",fps];
     
