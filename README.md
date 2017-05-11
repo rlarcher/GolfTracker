@@ -4,6 +4,8 @@ Title: Mobile Golf Tracker
 
 Team Members: Ryan Archer
 
+UPDATED YOUTUBE LINK AS OF 5/10/2017: https://www.youtube.com/watch?v=RQlZfZvCeOA
+
 Summary: This project seeks to produce a mobile version of the Golf Pro Tracker often seen on television broadcasts of PGA tournaments, while adding other forms of analysis into the golf swing. The application’s main feature will be to draw a line representing the trajectory of the golf ball after impact. Other features may include analyzing launch angle, swing speed, or ball speed after impact. For an example of what the Pro Tracker looks like, refer to the following link: https://www.youtube.com/watch?v=X9epYdKPJUk. 
 
 Background: 
