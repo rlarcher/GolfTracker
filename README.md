@@ -4,6 +4,7 @@ Title: Mobile Golf Tracker
 
 Team Members: Ryan Archer
 
+REPO UPDATED 5/11/2017, see below for changes since checkpoint
 UPDATED YOUTUBE LINK AS OF 5/10/2017: https://www.youtube.com/watch?v=RQlZfZvCeOA
 
 Summary: This project seeks to produce a mobile version of the Golf Pro Tracker often seen on television broadcasts of PGA tournaments, while adding other forms of analysis into the golf swing. The application’s main feature will be to draw a line representing the trajectory of the golf ball after impact. Other features may include analyzing launch angle, swing speed, or ball speed after impact. For an example of what the Pro Tracker looks like, refer to the following link: https://www.youtube.com/watch?v=X9epYdKPJUk. 
@@ -22,3 +23,11 @@ Apirl 21: Research physics involved with ball speed detection
 April 25: Finish work on detecting ball speed
 Apirl 30: Test speed analytics and touch up any remaining problems
 May 4: Youtube clip showcasing ball tracing and ball speed detection
+
+Since Checkpoint
+Created another UIImageView, so that the user can see the real image and the threshold image.
+Speed Detection.
+Switched to AVCaptureSession instead of CVVideoCamera for better performance. 
+Switched to findContours for better detection.
+Updated Youtube video after presentation.
+Added image into repo called app.png that shows the app in progress. 
