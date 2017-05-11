@@ -237,11 +237,16 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     vector<cv::Rect> boundRect( contours.size() );
     vector<Point2f>center( contours.size() );
     vector<float>radius( contours.size() );
+    vector<double>roundnesses(10000);
     for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
     {
         approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
         minEnclosingCircle( (Mat)contours_poly[i], center[i], radius[i] );
-        if( radius[i] > max_radius )
+        double perimeter = cv::arcLength(contours[i], true);
+        double area = contourArea(contours[i]);
+        double roundness = CircularityStandard(area, perimeter);
+        roundnesses[i] = roundness;
+        if( radius[i] > max_radius && roundness > 0.5)
         {
             max_radius = radius[i];
             max_radius_index = i;               //Store the index of largest contour
@@ -249,10 +254,7 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     }
     
     if (contours.size() > 0) {
-        double perimeter = cv::arcLength(contours[max_radius_index], true);
-        double area = contourArea(contours[max_radius_index]);
-        double roundness = CircularityStandard(area, perimeter);
-        cout << roundness << "round\n";
+        double roundness = roundnesses[max_radius_index];
         if (roundness < 2.0 && roundness > 0.4) {
             // good enough approx of a circle
             circle( image, center[max_radius_index], (int)radius[max_radius_index], Scalar(255,0,0), 2, 8, 0 );
@@ -271,15 +273,15 @@ float euclideanDist(float x1, float x2, float y1, float y2) {
     int64 time_diff = next_time - curr_time_;
     float fps = (float)getTickFrequency()/(time_diff); // Estimate the fps
     if(speed_count > 0 && num_points > 2) {
-        Point2f center1 = center[num_points-2];
-        Point2f center2 = center[num_points-1];
+        Point2f center1 = points[num_points-2];
+        Point2f center2 = points[num_points-1];
         int distance = euclideanDist(center1.x, center2.x, center1.y, center2.y);
         cout << distance << "\n";
         float dist_mm = cv_points_to_mm(distance, radius[num_points-1]);
         cout << dist_mm << "\n";
         float speed = get_speed(dist_mm*1000, time_diff);
         dispatch_sync(dispatch_get_main_queue(), ^{
-            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", speed];
+            NSString *mps_NSStr = [NSString stringWithFormat:@"MPS = %2.2f", 0];
             mpsView_.text = mps_NSStr;
             NSLog(@"%@", mps_NSStr);
         });
